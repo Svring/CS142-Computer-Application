@@ -1,0 +1,50 @@
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+}
+
+.box1 {
+    height: 150px;
+    width: 100px;
+    font-size: 40px;
+    font-family: Tahoma;
+    margin: 5px;
+    background-color: #eeeff2;
+    padding-left: 10px;
+}
+
+.box1:hover {
+    cursor: pointer;
+    background-color: yellow;
+}
+
+.box2 {
+    height: 150px;
+    width: 100px;
+    font-size: 40px;
+    font-family: Tahoma;
+    margin: 5px;
+    background-color: #eeeff2;
+    padding-left: 10px;
+}
+
+.box2:hover {
+    cursor: pointer;
+    background-color: yellow;
+}
+
+.box3 {
+    height: 150px;
+    width: 100px;
+    font-size: 40px;
+    font-family: Tahoma;
+    margin: 5px;
+    background-color: #eeeff2;
+    padding-left: 10px;
+}
+
+.box3:hover {
+    cursor: pointer;
+    background-color: yellow;
+}
