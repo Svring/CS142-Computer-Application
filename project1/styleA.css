@@ -1,37 +1,30 @@
 body {
-    height: 100vh;
+    height: 90vh;
     display: flex;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
     white-space: nowrap;
 }
 
-.box1 {
+.box {
     height: 100px;
     width: 100px;
     border-top: 1px solid #687291;
+    background-color: #dfe1e7;
     font-size: 40px;
     font-family: Tahoma;
     text-align: center;
-    background-color: #dfe1e7;
 }
 
-.box2 {
-    height: 100px;
-    width: 100px;
-    border-top: 1px solid #687291;
-    font-size: 40px;
-    font-family: Tahoma;
-    text-align: center;
+.bd {
     background-color: #eeeff2;
 }
 
-.box3 {
-    height: 100px;
-    width: 100px;
+.f {
     border: 4px solid black;
-    font-size: 40px;
-    font-family: Tahoma;
-    text-align: center;
     background-color: #687291;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
