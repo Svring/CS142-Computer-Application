@@ -1,0 +1,36 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    align-items: center;
+}
+
+#datepicker1 {
+    width: 300px;
+    height: 300px;
+    border-top: 1px solid rgba(255,255,255,0.5);
+    border-left: 1px solid rgba(255,255,255,0.5);
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    border-right: 1px solid rgba(255,255,255,0.3);
+    backdrop-filter: blur(50px);
+    background: rgba(50,50,50,0.2);
+    border-radius: 10px;
+    align-self: center;
+}
+
+#datepicker2 {
+    width: 300px;
+    height: 300px;
+    border-top: 1px solid rgba(255,255,255,0.5);
+    border-left: 1px solid rgba(255,255,255,0.5);
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    border-right: 1px solid rgba(255,255,255,0.3);
+    backdrop-filter: blur(10px);
+    background: rgba(50,50,50,0.2);
+    border-radius: 10px;
+    align-self: center;
+}

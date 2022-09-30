@@ -1,0 +1,20 @@
+{
+  "name": "project3",
+  "version": "1.0.0",
+  "private": true,
+  "description": "cs142 project3 - JavaScript and the DOM",
+  "devDependencies": {
+    "eslint": "^8.6.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-html": "^6.2.0"
+  },
+  "scripts": {
+    "test": "echo \"Test your code by opening datepicker.html and cs142-test-table.html in your browser.\"",
+    "lint": "eslint -c .eslintrc.json --ext .html,.js ."
+  },
+  "author": "Mendel Rosenblum <mendel@cs.stanford.edu> (http://www.stanford.edu/~mendel)",
+  "license": "ISC",
+  "dependencies": {
+    "8.5": "^2.0.0"
+  }
+}
