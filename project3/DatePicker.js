@@ -34,6 +34,7 @@ class DatePicker {
         tab.setAttribute('border', 1);
         tab.setAttribute('width', '100%');
         tab.setAttribute('height', '100%');
+        tab.style.borderColor = 'black';
 
         return tab;
     }
@@ -56,12 +57,13 @@ class DatePicker {
 
         const dateTime = document.createElement('td');
         const dateTimeText = document.createTextNode(
-            months[date.getMonth()] + ', ' + date.getFullYear()
+            months[date.getMonth()] + ' ' + date.getFullYear()
         );
         dateTime.appendChild(dateTimeText);
         dateTime.style.textAlign = 'center';
         dateTime.style.backgroundColor = 'Pink';
         dateTime.style.color = 'White';
+        dateTime.style.fontFamily = 'Lucida Grande';
         dateTime.colSpan = 5;
         head.appendChild(dateTime);
 
@@ -74,7 +76,23 @@ class DatePicker {
         rightArrowKey.setAttribute('id', 'rightArrow');
         head.appendChild(rightArrowKey);
 
-        leftArrowKey.addEventListener
+        leftArrowKey.style.cursor = 'pointer';
+        leftArrowKey.addEventListener('click', () => {
+            const old_month = date.getMonth();
+            date.setMonth(old_month - 1);
+            const parent = document.getElementById(this.id);
+            parent.firstChild.remove();
+            this.render(date);
+        });
+
+        rightArrowKey.style.cursor = 'pointer';
+        rightArrowKey.addEventListener('click', () => {
+            const old_month = date.getMonth();
+            date.setMonth(old_month + 1);
+            const parent = document.getElementById(this.id);
+            parent.firstChild.remove();
+            this.render(date);
+        });
 
         return head;
     }
@@ -82,7 +100,7 @@ class DatePicker {
     createWeek() {
         const row = document.createElement('tr');
         const week = [
-            'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'
+            'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'
         ];
 
         for (let i = 0; i < 7; i++) {
@@ -92,6 +110,7 @@ class DatePicker {
             cell.appendChild(text);
             cell.style.backgroundColor = 'Maroon'
             cell.style.color = 'White';
+            cell.style.fontFamily = 'Lucida Grande';
             row.appendChild(cell);
 
             cell.style.textAlign = 'center';
@@ -100,18 +119,23 @@ class DatePicker {
         return row;
     }
 
-    //Actually, next part is the root of all guilt
+    //Actually, it is the next part which turns the whole file into a nightmare
 
     createDay(date) {
+        const newDate = new Date(date);
         const tbody = [];
-        const limit = this.getCountDays(date);
-        let totalRow = this.judgeRow(date);
+        const months = [
+            'January', 'February', 'March', 'April', 'May', 'June', 'July',
+        'August', 'September', 'October', 'November', 'December'
+        ]
+        const limit = this.getCountDays(newDate);
+        let totalRow = this.judgeRow(newDate);
 
         let day = 1;
-        date.setDate(1);
-        const start = date.getDay();
+        newDate.setDate(1);
+        const start = newDate.getDay();
 
-        const lastMonth = this.getLastMonth(date);
+        const lastMonth = this.getLastMonth(newDate);
         let lastMonthStart = lastMonth - start + 1;
         let nextStart = 1;
 
@@ -134,7 +158,14 @@ class DatePicker {
                 } else {
                     let text = document.createTextNode(day.toString());
                     cell.appendChild(text);
-                    cell.style.backgroundColor = 'cyan';
+                    let today = {
+                        day: cell.innerHTML,
+                        month: months[date.getMonth()],
+                        year: date.getFullYear()
+                    }
+                    cell.style.backgroundColor = 'Cyan';
+                    cell.style.cursor = 'pointer';
+                    cell.addEventListener('click', () => this.func(this.id, today));
                     day++;
                 }
                 
@@ -149,9 +180,10 @@ class DatePicker {
     }
 
     judgeRow(date) {
-        date.setDate(1);
-        let start = date.getDay();
-        let sum = this.getCountDays(date);
+        const newDate = new Date(date);
+        newDate.setDate(1);
+        let start = newDate.getDay();
+        let sum = this.getCountDays(newDate);
         let totalCell = start + sum;
         let a = totalCell / 7;
         let totalRow = a;
@@ -162,14 +194,16 @@ class DatePicker {
     }
 
     getCountDays(date) {
-        var curMonth = date.getMonth();
-        date.setMonth(curMonth + 1);
-        date.setDate(0);
-        return date.getDate();
+        const newDate = new Date(date);
+        var curMonth = newDate.getMonth();
+        newDate.setMonth(curMonth + 1);
+        newDate.setDate(0);
+        return newDate.getDate();
     }
 
     getLastMonth(date) {
-        date.setDate(0);
-        return date.getDate();
+        const newDate = new Date(date);
+        newDate.setDate(0);
+        return newDate.getDate();
     }
 }
