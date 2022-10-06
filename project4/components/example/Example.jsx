@@ -23,6 +23,7 @@ class Example extends React.Component {
     // We read the example model data into the state variable 'name'
     this.state = {
       name: window.cs142models.exampleModel().name,
+      motto: window.cs142models.exampleModel().motto,
       counter: 0,
       inputValue: '',
       buttonWasClicked: '',
@@ -97,13 +98,18 @@ class Example extends React.Component {
     return retVal;
   }
 
+  changeMotto(event) {
+    this.setState({ motto: event.target.value });
+  }
+
   render() {
     return (
       <div className="container Example">
         <h1>CS142 Project#4 React.js Example</h1>
 
         <div className="motto-update">
-          {/* Your problem #1 motto displaying and updating widget goes here */}
+          {this.state.name}:
+          <input id="motto" type="text" value={this.state.motto} onChange={event => this.changeMotto(event)} />
         </div>
 
         <p>

@@ -16,7 +16,8 @@ if (cs142models === undefined) {
 
 cs142models.exampleModel = function() {
    return {
-      name: 'Unknown Name'
+      name: 'Linkling',
+      motto: 'Rain Forever'
    };
 };
 
