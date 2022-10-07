@@ -5,6 +5,7 @@ Since CSS uses a global name space for classes we use a naming convention that i
 React application and the component in the class name.  The hope is any other stylesheets
 you use won't conflict with these names.
 */
+
 .cs142-example-code {
     font-family: Courier New, monospace;
     line-height: 1.3;

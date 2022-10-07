@@ -4,21 +4,23 @@ CSS for the CS142 project #4 Problem #2 states component
 Since CSS uses a global name space for classes we should use names starting with
 cs142-states- here.
 */
-body {
+.body {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
 }
 
-p {
+.state-input{
+    text-align: center;
     color: rgb(216, 5, 184);
     font-family: 'Courier New', Courier, monospace;
 }
 
-li {
+.search-result li {
     color: rgb(216, 5, 184);
     font-family: 'Courier New', Courier, monospace;
+    text-align: center;
 }
 
 .filter {

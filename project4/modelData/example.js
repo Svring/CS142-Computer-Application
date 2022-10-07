@@ -20,4 +20,3 @@ cs142models.exampleModel = function() {
       motto: 'Rain Forever'
    };
 };
-

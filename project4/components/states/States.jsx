@@ -1,4 +1,5 @@
 import React from 'react';
+import Header from '../header/header';
 import './States.css';
 
 /**
@@ -29,9 +30,10 @@ class States extends React.Component {
 
   render() {
     return (
-      <div>
-        <div class="user-command">
-          <p>Please input</p>
+      <div className='body'>
+        <Header />
+        <div className="user-command">
+          <p className='state-input'>Please input</p>
           <input 
             className="filter" 
             type="text" 
@@ -39,7 +41,7 @@ class States extends React.Component {
             onChange={ event => this.handleInput(event) }
           />
         </div>
-        <div class="search-result">
+        <div className="search-result">
           {this.state.filteredStates.map(st => <li key={st}>{st}</li>)}
         </div>
       </div>
