@@ -19,8 +19,8 @@ function P5() {
         <div>
             <React.Fragment>
                 <HashRouter>
-                    <Link to="/states" style={linkStyle}>States</Link>
-                    <Link to="/example" style={linkStyle}>Example</Link>
+                    <Link to='/states' style={linkStyle}>State</Link>
+                    <Link to='/example' style={linkStyle}>Example</Link>
                     <Route path="/states" component={States} />
                     <Route path="/example" component={Example} />
                 </HashRouter>

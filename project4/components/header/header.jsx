@@ -9,7 +9,7 @@ class Header extends React.Component {
     render() {
         return (
             <div>
-                <img src='./components/header/bili.png' width='1470'/>
+                <img src='./components/header/bili.png'/>
             </div>
         );
     }

@@ -4,3 +4,8 @@ body {
     align-items: center;
     justify-content: space-around;
 }
+
+img {
+    width: 100vh;
+    max-width: 1680px;
+}
