@@ -1,12 +1,9 @@
 import React from 'react';
 import {
-  Divider,
-  Link,
   List,
   ListItem,
   ListItemText,
-  Breadcrumbs,
-  Typography,
+  Button,
 }
 from '@material-ui/core';
 import './userList.css';
@@ -32,32 +29,24 @@ class UserList extends React.Component {
 
   listUsers = () => {
     return (
-      this.state.users.map((user) => {
-        <div className={user._id}>
+      this.state.users.map((user) => 
           <ListItem divider={true} key={user._id}>
-            <Link to={"/users/" + user._id}>
+            <Button component='a' href={'/users/' + user._id}>
               <ListItemText>
                 {this.getFullName(user)}
               </ListItemText>
-            </Link>
+            </Button>
           </ListItem>
-          <Divider/>
-        </div>
-      })
+      )
     );
   }
 
   render() {
     return (
       <div>
-        <Breadcrumbs>
           <List component='nav'>
             {this.listUsers()}
           </List>
-        </Breadcrumbs>
-        <Typography>
-          {this.listUsers()}
-        </Typography>
       </div>
     );
   }
