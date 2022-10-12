@@ -7,6 +7,7 @@ import {
 }
 from '@material-ui/core';
 import './userList.css';
+import { Link } from 'react-router-dom';
 
 /**
  * Define UserList, a React componment of CS142 project #5
@@ -31,11 +32,11 @@ class UserList extends React.Component {
     return (
       this.state.users.map((user) => 
           <ListItem divider={true} key={user._id}>
-            <Button component='a' href={'/users/' + user._id}>
-              <ListItemText>
-                {this.getFullName(user)}
-              </ListItemText>
-            </Button>
+            <Link to={'/users/:' + user._id}>
+              <Button>
+                  {this.getFullName(user)}
+              </Button>
+            </Link>
           </ListItem>
       )
     );
