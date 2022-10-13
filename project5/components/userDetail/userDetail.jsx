@@ -23,7 +23,7 @@ class UserDetail extends React.Component {
 
   componentDidUpdate() {
     let userId = this.props.match.params.userId;
-    if (userId != 0) {
+    if (userId.slice(1) != this.state.user._id) {
       this.setState({user: window.cs142models.userModel(userId.slice(1))});
     }
   }
@@ -40,15 +40,15 @@ class UserDetail extends React.Component {
             <span className="h2">{this.state.user.first_name + " " + this.state.user.last_name}</span>
           </div>
           <div className="my-2">
-            <span className="fw-bold me-2">Location</span>
+            <span className="fw-bold me-2">Location: </span>
             <span>{this.state.user.location}</span>
           </div>
           <div className="my-2">
-            <span className="fw-bold me-2">Occupation</span>
+            <span className="fw-bold me-2">Occupation: </span>
             <span>{this.state.user.occupation}</span>
           </div>
           <div className="my-2">
-            <span className="fw-bold me-2">Description</span>
+            <span className="fw-bold me-2">Description: </span>
             <span>{this.state.user.description}</span>
           </div>
         </div>

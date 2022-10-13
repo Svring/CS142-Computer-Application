@@ -32,7 +32,7 @@ class UserList extends React.Component {
     return (
       this.state.users.map((user) => 
           <ListItem divider={true} key={user._id}>
-            <Link to={'/users/:' + user._id}>
+            <Link to={'/users/:' + user._id} style={{ textDecoration: 'none' }}>
               <Button>
                   {this.getFullName(user)}
               </Button>
