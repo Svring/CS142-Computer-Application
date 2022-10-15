@@ -19,11 +19,15 @@ class PhotoShare extends React.Component {
     super(props);
   }
 
+  componentDidUpdate() {
+    
+  }
+
   render() {
     return (
       <HashRouter>
       <div>
-      <Grid container spacing={8}>
+      <Grid container spacing={5}>
         <Grid item xs={12}>
           <TopBar/>
         </Grid>

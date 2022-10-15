@@ -1,8 +1,12 @@
 import React from 'react';
 import {HashRouter as Router, Link} from 'react-router-dom';
-import {
-  Typography
-} from '@material-ui/core';
+
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+
 import './userDetail.css';
 
 
@@ -31,27 +35,49 @@ class UserDetail extends React.Component {
   render() {
     return (
       <Router>
-        <div className="user-detail">
-          <Link to={"/photos/" + this.state.user._id}>
-            <button type="button">Photos</button>
-          </Link>
-
-          <div>
-            <span className="h2">{this.state.user.first_name + " " + this.state.user.last_name}</span>
-          </div>
-          <div className="my-2">
-            <span className="fw-bold me-2">Location: </span>
-            <span>{this.state.user.location}</span>
-          </div>
-          <div className="my-2">
-            <span className="fw-bold me-2">Occupation: </span>
-            <span>{this.state.user.occupation}</span>
-          </div>
-          <div className="my-2">
-            <span className="fw-bold me-2">Description: </span>
-            <span>{this.state.user.description}</span>
-          </div>
-        </div>
+        <Box className="user-detail" sx={{}}>
+          <Paper style={{
+            p: 2,
+            margin: 'auto',
+            maxWidth: '100%',
+            flexGrow: 1,
+            minHeight: 100,
+            marginTop: 20,
+          }}
+          >
+            <Grid container spacing={2} wrap='nowrap' alignItems='center'>
+              <Grid item>
+                <Link to={"/photos/" + this.state.user._id} style={{textDecoration: 'None'}}>
+                  <Button style={{width: 128, height: 128, color: 'Highlight'}}>Photos</Button>
+                </Link>
+              </Grid>
+              <Grid item>
+                <Grid container direction='column' spacing={1}>
+                  <Grid item>
+                    <Typography style={{color: 'chocolate'}}>
+                      {this.state.user.first_name + " " + this.state.user.last_name}
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography style={{color: "pink"}}>
+                      {'Location: ' + this.state.user.location}
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography style={{color: 'coral'}}>
+                      {'Occupation: ' + this.state.user.occupation}
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography style={{color: 'brown'}}>
+                      {'Description: ' + this.state.user.description}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Paper>
+        </Box>
       </Router>
     );
   }
@@ -60,11 +86,25 @@ class UserDetail extends React.Component {
 export default UserDetail;
 
 /*
-<Typography variant="body1">
-        This should be the UserDetail view of the PhotoShare app. Since
-        it is invoked from React Router the params from the route will be
-        in property match. So this should show details of user:
-        {this.props.match.params.userId}. You can fetch the model for the
-        user from window.cs142models.userModel(userId).
-</Typography>
+<Router>
+  <Box className="user-detail" sx={{}}>
+    <Paper style={{height: 200, display: Grid, }} variant='outlined' elevation={9} >
+      <Typography variant='h5'>
+        {this.state.user.first_name + " " + this.state.user.last_name}
+      </Typography>
+      <Typography variant='h6'>
+        {'Location: ' + this.state.user.location}
+      </Typography>
+      <Typography variant='h6'>
+        {'Occupation: ' + this.state.user.occupation}
+      </Typography>
+      <Typography variant='h6'>
+        {'Description: ' + this.state.user.description}
+      </Typography>
+    </Paper>
+    <Link to={"/photos/" + this.state.user._id} style={{textDecoration: 'None'}}>
+      <Button style={{}}>Photos</Button>
+    </Link>
+  </Box>
+</Router>
 */

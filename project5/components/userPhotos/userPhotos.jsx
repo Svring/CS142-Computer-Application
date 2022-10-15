@@ -1,9 +1,16 @@
 import React from 'react';
-import {
-  Typography
-} from '@material-ui/core';
+
 import './userPhotos.css';
 import { cs142models } from '../../modelData/photoApp';
+import {HashRouter as Router, Link} from 'react-router-dom';
+
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import { Divider } from '@material-ui/core';
 
 
 /**
@@ -15,6 +22,7 @@ class UserPhotos extends React.Component {
     this.state = {
       userId: 0,
       photo: [],
+      user: [],
     };
   }
 
@@ -25,31 +33,68 @@ class UserPhotos extends React.Component {
   componentDidUpdate() {
     let userId = this.props.match.params.userId;
     let photos = cs142models.photoOfUserModel(userId);
+    let user = window.cs142models.userModel(userId);
     if (userId !== this.state.userId) {
       this.setState({userId: userId});
       this.setState({photo: photos});
+      this.setState({user: user});
     }
   }
 
+  cardOfComment = (photo) => {
+    return (
+      photo.comments ?
+      photo.comments.map((comment) =>
+        <Card style={{width: 300, height: 250}} variant='outlined'>
+          <CardContent>
+            <Typography style={{color: 'ActiveBorder'}}>
+              {comment.date_time}
+            </Typography>
+            <Router>
+              <Link to={"/users/:" + comment.user._id} style={{textDecoration: 'None'}}>
+                <Typography style={{color: 'violet'}}>
+                  {comment.user.first_name + ' ' + comment.user.last_name}
+                </Typography>
+              </Link>
+            </Router>
+            <Divider/>
+            <Typography variant='body2' style={{pt: 5}}>
+              {comment.comment}
+            </Typography>
+          </CardContent>
+        </Card>
+      )
+      :
+      null
+    );
+  }
+
   listPhotos = () => {
-    this.state.photo.map((photo) => {
-      return (
-        <div>
-          <div>{photo._id}</div>
-          <div>{photo.date_time}</div>
-          <div>
-            <img src={'images/' + photo.file_name} />
-          </div>
-        </div>
-      );
-    });
+    return (
+      this.state.photo.map((photo) => {
+        return (
+          <Paper style={{display: 'flex'}}>
+            <Card style={{width: 300, height: 250}} variant='outlined'>
+              <CardMedia component={'img'} image={'images/' + photo.file_name} 
+                style={{width: '100%', height: 200}} />
+              <CardContent>
+                <Typography>
+                  {photo.date_time}
+                </Typography>
+              </CardContent>
+            </Card>
+            {this.cardOfComment(photo)}
+          </Paper>
+        );
+      })
+    );
   }
 
   render() {
     return (
-      <div>
-        {this.state.userId}
-      </div>
+      <Box>
+        {this.listPhotos()}
+      </Box>
     );
   }
 }
@@ -67,4 +112,6 @@ export default UserPhotos;
           {JSON.stringify(window.cs142models.photoOfUserModel(this.props.match.params.userId))}
         </Typography>
 </Typography>
+<Typography>{photo._id}</Typography>
+            <Typography>{photo.date_time}</Typography>
 */

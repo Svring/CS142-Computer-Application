@@ -33,8 +33,10 @@ class UserList extends React.Component {
       this.state.users.map((user) => 
           <ListItem divider={true} key={user._id}>
             <Link to={'/users/:' + user._id} style={{ textDecoration: 'none' }}>
-              <Button>
+              <Button style={{textTransform: 'capitalize'}}>
+                <ListItemText style={{color: 'violet'}}>
                   {this.getFullName(user)}
+                </ListItemText>
               </Button>
             </Link>
           </ListItem>
