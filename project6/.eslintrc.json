@@ -1,0 +1,126 @@
+{
+  "plugins": [
+      "react"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "eslint-config-airbnb",
+    "plugin:react/recommended"
+  ],
+  "parser": "@babel/eslint-parser",
+  "rules": {
+    // CS 142 rules
+    "no-console": 0,
+    "react/prop-types": "off",
+    "no-empty": ["error", { "allowEmptyCatch": true }],
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "WithStatement",
+        "message": "`with` is disallowed in strict mode."
+      }
+    ],
+    "no-constant-condition": ["error", { "checkLoops": false }],
+    "import/extensions": "off",
+    "import/no-relative-packages": "off",
+    "react/jsx-indent": "off",
+    "react/jsx-curly-brace-presence": "off",
+    "max-len": "off",
+    "jsx-quotes": "off",
+    "react/jsx-tag-spacing": "off",
+    "react/no-unused-class-component-methods": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "react/self-closing-comp": "off",
+    "object-curly-newline": "off",
+    "arrow-body-style": "off",
+    "no-nested-ternary": "off",
+    "react/no-array-index-key": "off",
+    "react/destructuring-assignment": "off",
+    "import/newline-after-import": "off",
+    "jsx-a11y/alt-text": "off",
+    "react/jsx-first-prop-new-line": "off",
+    "react/jsx-max-props-per-line": "off",
+    "react/sort-comp": "off",
+    "react/jsx-closing-bracket-location": "off",
+    "key-spacing": "off",
+    "react/jsx-indent-props": "off",
+    "react/jsx-equals-spacing": "off",
+    "react/jsx-curly-spacing": "off",
+    "react/button-has-type": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "no-underscore-dangle": "off",
+    "react/jsx-fragments": "off",
+    "arrow-spacing": "off",
+    "jsx-a11y/iframe-has-title": "off",
+    "react/prefer-stateless-function": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/no-access-state-in-setstate": "off",
+    "prefer-const": "off",
+    "no-useless-constructor": "off",
+    "react/jsx-boolean-value": "off",
+
+
+    // Overly strict style rules
+    "arrow-parens": 0,
+    "brace-style": 0,
+    "camelcase": 0,
+    "comma-dangle": 0,
+    "func-names": 0,
+    "no-continue": 0,
+    "no-else-return": 0,
+    "no-param-reassign": 0,
+    "no-plusplus": 0,
+    "no-var": 0,
+    "quotes": 0,
+    "vars-on-top": 0,
+    "no-path-concat": 0,
+
+    // Spacing rules
+    "block-spacing": 0,
+    "comma-spacing": 0,
+    "eol-last": 0,
+    "func-call-spacing": 0,
+    "function-call-argument-newline": 0,
+    "function-paren-newline": 0,
+    "indent": 0,
+    "keyword-spacing": 0,
+    "linebreak-style": 0,
+    "lines-around-directive": 0,
+    "lines-between-class-members": 0,
+    "no-mixed-spaces-and-tabs": 0,
+    "no-multi-spaces": 0,
+    "no-multiple-empty-lines": 0,
+    "no-spaced-func": 0,
+    "no-tabs": 0,
+    "no-trailing-spaces": 0,
+    "object-curly-spacing": 0,
+    "operator-linebreak": 0,
+    "padded-blocks": 0,
+    "space-before-blocks": 0,
+    "semi-spacing": 0,
+    "space-before-function-paren": 0,
+    "space-in-parens": 0,
+    "space-infix-ops": 0,
+    "space-unary-ops": 0,
+    "spaced-comment": 0,
+    "unicode-bom": 0,
+
+    // ES6 shorthands
+    "object-shorthand": 0,
+    "prefer-arrow-callback": 0,
+    "prefer-destructuring": 0,
+    "prefer-template": 0
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}
