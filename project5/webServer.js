@@ -61,7 +61,7 @@ app.get('/user/list', function (request, response) {
  */
 app.get('/user/:id', function (request, response) {
   var id = request.params.id;
-  var user = cs142models.userModel(id);
+  var user = cs142models.userModel(id.slice(1));
   if (user === null) {
     console.log('User with _id:' + id + ' not found.');
     response.status(400).send('Not found');

@@ -3,6 +3,7 @@ import {
   AppBar, Toolbar, Typography, Button, Grid
 } from '@material-ui/core';
 import './TopBar.css';
+import fetchModel from '../../lib/fetchModelData';
 
 /**
  * Define TopBar, a React componment of CS142 project #5
@@ -11,21 +12,17 @@ class TopBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: [],
-      photo: false,
+      view: this.props.view,
+      version: [],
     }
   }
 
   componentDidUpdate() {
-
-  }
-
-  showInformation = () => {
-    return (
-      <Typography variant='h6'>
-
-      </Typography>
-    )
+    if (this.state.view !== this.props.view) {
+      this.setState({view: this.props.view});
+      fetchModel("http://localhost:3000/test/info")
+      .then(response => this.setState({version: response.data.__v}));
+    }
   }
 
   render() {
@@ -41,7 +38,7 @@ class TopBar extends React.Component {
               </Typography>
             </Grid>
             <Grid item>
-              {this.showInformation()}
+              {this.state.view}
             </Grid>
           </Grid>
         </Toolbar>

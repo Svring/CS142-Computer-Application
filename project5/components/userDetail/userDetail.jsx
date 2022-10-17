@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
 import './userDetail.css';
+import fetchModel from '../../lib/fetchModelData';
 
 
 /**
@@ -27,8 +28,9 @@ class UserDetail extends React.Component {
 
   componentDidUpdate() {
     let userId = this.props.match.params.userId;
-    if (userId.slice(1) != this.state.user._id) {
-      this.setState({user: window.cs142models.userModel(userId.slice(1))});
+    if (userId.slice(1) !== this.state.user._id) {
+      let url = `/user/${userId}`;
+      fetchModel(url).then(response => this.setState({user: response.data}));
     }
   }
 

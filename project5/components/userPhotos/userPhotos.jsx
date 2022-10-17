@@ -1,7 +1,6 @@
 import React from 'react';
 
 import './userPhotos.css';
-import { cs142models } from '../../modelData/photoApp';
 import {HashRouter as Router, Link} from 'react-router-dom';
 
 import Paper from '@material-ui/core/Paper';
@@ -11,6 +10,8 @@ import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import { Divider } from '@material-ui/core';
+
+import fetchModel from '../../lib/fetchModelData';
 
 
 /**
@@ -22,7 +23,6 @@ class UserPhotos extends React.Component {
     this.state = {
       userId: 0,
       photo: [],
-      user: [],
     };
   }
 
@@ -32,12 +32,10 @@ class UserPhotos extends React.Component {
 
   componentDidUpdate() {
     let userId = this.props.match.params.userId;
-    let photos = cs142models.photoOfUserModel(userId);
-    let user = window.cs142models.userModel(userId);
     if (userId !== this.state.userId) {
       this.setState({userId: userId});
-      this.setState({photo: photos});
-      this.setState({user: user});
+      let url = `/photosOfUser/${userId}`;
+      fetchModel(url).then(response => this.setState({photo: response.data}));
     }
   }
 
@@ -51,7 +49,7 @@ class UserPhotos extends React.Component {
               {comment.date_time}
             </Typography>
             <Router>
-              <Link to={"/users/:" + comment.user._id} style={{textDecoration: 'None'}}>
+              <Link to={"/users/:" + comment.user._id} style={{textDecoration: 'None'}} key={comment._id}>
                 <Typography style={{color: 'violet'}}>
                   {comment.user.first_name + ' ' + comment.user.last_name}
                 </Typography>

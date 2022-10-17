@@ -8,6 +8,7 @@ import {
 from '@material-ui/core';
 import './userList.css';
 import { Link } from 'react-router-dom';
+import fetchModel from '../../lib/fetchModelData';
 
 /**
  * Define UserList, a React componment of CS142 project #5
@@ -21,7 +22,8 @@ class UserList extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({users: window.cs142models.userListModel()});
+    let url = '/user/list';
+    fetchModel(url).then(response => {this.setState({users: response.data})});
   }
 
   getFullName = (user) => {
