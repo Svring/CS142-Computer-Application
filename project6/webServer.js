@@ -32,6 +32,8 @@
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
+var cors = require('cors');
+
 var async = require('async');
 
 var express = require('express');
@@ -50,7 +52,7 @@ mongoose.connect('mongodb://localhost/cs142project6', { useNewUrlParser: true, u
 // We have the express static module (http://expressjs.com/en/starter/static-files.html) do all
 // the work for us.
 app.use(express.static(__dirname));
-
+app.use(cors({ origin: '*' }));
 
 app.get('/', function (request, response) {
     response.send('Simple web server of files from ' + __dirname);
@@ -136,7 +138,7 @@ app.get('/user/list', function (request, response) {
  */
 app.get('/user/:id', function (request, response) {
     var id = request.params.id;
-    var user = cs142models.userModel(id);
+    var user = cs142models.userModel(id.slice(1));
     if (user === null) {
         console.log('User with _id:' + id + ' not found.');
         response.status(400).send('Not found');
