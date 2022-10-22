@@ -49,7 +49,7 @@ class UserDetail extends React.Component {
           >
             <Grid container spacing={2} wrap='nowrap' alignItems='center'>
               <Grid item>
-                <Link to={"/photos/" + this.state.user._id} style={{textDecoration: 'None'}}>
+                <Link to={"/photos/:" + this.state.user._id} style={{textDecoration: 'None'}}>
                   <Button style={{width: 128, height: 128, color: 'Highlight'}}>Photos</Button>
                 </Link>
               </Grid>

@@ -12,6 +12,7 @@ var mongoose = require('mongoose');
  * Photo can have comments and we stored them in the Photo object itself using
  * this Schema:
  */
+
 var commentSchema = new mongoose.Schema({
     comment: String,     // The text of the comment.
     date_time: {type: Date, default: Date.now}, // The date and time when the comment was created.

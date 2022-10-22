@@ -85,7 +85,7 @@ Promise.all(removePromises).then(function () {
                         photoObj.comments = photoObj.comments.concat([{
                             comment: comment.comment,
                             date_time: comment.date_time,
-                            user_id: comment.user.objectID
+                            user_id: comment.user.objectID,
                         }]);
                         console.log("Adding comment of length %d by user %s to photo %s",
                             comment.comment.length,
