@@ -8,7 +8,8 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
 import './userDetail.css';
-import fetchModel from '../../lib/fetchModelData';
+
+import axios from 'axios';
 
 
 /**
@@ -30,7 +31,7 @@ class UserDetail extends React.Component {
     let userId = this.props.match.params.userId;
     if (userId.slice(1) !== this.state.user._id) {
       let url = `/user/${userId}`;
-      fetchModel(url).then(response => this.setState({user: response.data}));
+      axios.get(url).then(response => this.setState({user: response.data}));
     }
   }
 

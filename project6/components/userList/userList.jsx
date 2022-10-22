@@ -8,7 +8,7 @@ import {
 from '@material-ui/core';
 import './userList.css';
 import { Link } from 'react-router-dom';
-import fetchModel from '../../lib/fetchModelData';
+import axios from 'axios';
 
 /**
  * Define UserList, a React componment of CS142 project #5
@@ -23,7 +23,7 @@ class UserList extends React.Component {
 
   componentDidMount() {
     let url = '/user/list';
-    fetchModel(url).then(response => {this.setState({users: response.data})});
+    axios.get(url).then(response => {this.setState({users: response.data})});
   }
 
   getFullName = (user) => {

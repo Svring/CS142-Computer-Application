@@ -11,7 +11,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import { Divider } from '@material-ui/core';
 
-import fetchModel from '../../lib/fetchModelData';
+import axios from 'axios';
 
 
 /**
@@ -35,7 +35,7 @@ class UserPhotos extends React.Component {
     if (userId !== this.state.userId) {
       this.setState({userId: userId});
       let url = `/photosOfUser/${userId}`;
-      fetchModel(url).then(response => this.setState({photo: response.data}));
+      axios.get(url).then(response => this.setState({photo: response.data}));
     }
   }
 

@@ -14,7 +14,6 @@ var Promise = require("Promise");
   *
 */
 
-
 function fetchModel(url) {
   return new Promise(function(resolve, reject) {
       url = 'http://localhost:3000' + url;
