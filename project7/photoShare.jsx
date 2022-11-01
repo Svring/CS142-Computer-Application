@@ -13,6 +13,7 @@ import TopBar from './components/topBar/TopBar';
 import UserDetail from './components/userDetail/userDetail';
 import UserList from './components/userList/userList';
 import UserPhotos from './components/userPhotos/userPhotos';
+import LoginRegister from './components/loginRegister/LoginRegister';
 
 class PhotoShare extends React.Component {
   constructor(props) {
@@ -44,6 +45,7 @@ class PhotoShare extends React.Component {
           <Grid item sm={9}>
             <Paper className="cs142-main-grid-item">
               <Switch>
+                <Route path="/loginregister" component={LoginRegister} />
                 <Route path="/users/:userId"
                   render={ props => <UserDetail {...props} changeView={this.changeView}/> }
                 />

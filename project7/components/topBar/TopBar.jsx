@@ -3,7 +3,7 @@ import {
   AppBar, Toolbar, Typography, Button, Grid
 } from '@material-ui/core';
 import './TopBar.css';
-import fetchModel from '../../lib/fetchModelData';
+import axios from 'axios';
 
 /**
  * Define TopBar, a React componment of CS142 project #5
@@ -20,7 +20,7 @@ class TopBar extends React.Component {
   componentDidUpdate() {
     if (this.state.view !== this.props.view) {
       this.setState({view: this.props.view});
-      fetchModel("http://localhost:3000/test/info")
+      axios.get("http://localhost:3000/test/info")
       .then(response => this.setState({version: response.data.__v}));
     }
   }

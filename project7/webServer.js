@@ -30,14 +30,20 @@
  */
 
 var mongoose = require('mongoose');
+
 mongoose.Promise = require('bluebird');
+
+const session = require('express-session');
+
+const bodyParser = require('body-parser');
+
+const multer = require('multer');
 
 var cors = require('cors');
 
 var async = require('async');
 
 var express = require('express');
-var app = express();
 
 // Load the Mongoose schema for User, Photo, and SchemaInfo
 var User = require('./schema/user.js');
@@ -45,14 +51,16 @@ var Photo = require('./schema/photo.js');
 var SchemaInfo = require('./schema/schemaInfo.js');
 
 // XXX - Your submission should work without this line. Comment out or delete this line for tests and before submission!
-var cs142models = require('./modelData/photoApp.js').cs142models;
 
 mongoose.connect('mongodb://localhost/cs142project6', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // We have the express static module (http://expressjs.com/en/starter/static-files.html) do all
 // the work for us.
+var app = express();
 app.use(express.static(__dirname));
 app.use(cors({ origin: '*' }));
+app.use(session({secret: 'secretKey', resave: false, saveUninitialized: false}));
+app.use(bodyParser.json());
 
 app.get('/', function (request, response) {
     response.send('Simple web server of files from ' + __dirname);
@@ -196,7 +204,6 @@ app.get('/photosOfUser/:id', function (request, response) {
             })
         }, function (err) {
             if (!err) {
-                console.log(newPhotos);
                 response.status(200).send(newPhotos);
             }
         });
@@ -210,6 +217,14 @@ app.get('/photosOfUser/:id', function (request, response) {
     }
     response.status(200).send(photos);
     */
+});
+
+app.post('/admin/login', (req, res) => {
+    
+});
+
+app.post('/admin/logout', (req, res) => {
+
 });
 
 
