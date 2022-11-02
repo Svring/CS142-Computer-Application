@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Paper, Button, Input } from '@material-ui/core';
+import { Typography, Paper, Button, TextField, } from '@material-ui/core';
 import axios from 'axios';
 
 class LoginRegister extends React.Component {
@@ -11,9 +11,16 @@ class LoginRegister extends React.Component {
         };
     };
 
-    handleInput = e => {
-
+    handleSubmit = e => {
+        const url = '/admin/login';
+        axios.post(url, this.state).then(res => {});
     };
+
+    handleInput = e => {
+        const name = e.target.name;
+        const value = e.target.value;
+        this.setState({ [name]: value });
+    }
 
     render() {
         return (
@@ -27,31 +34,33 @@ class LoginRegister extends React.Component {
                 justifyContent: 'center',
                 flexDirection: 'column',
             }}>
-                <Typography> Welcome to login </Typography>
-                <form className='login_form' style={{
+                <Typography style={{ color: 'hotpink' }}> Welcome to login </Typography>
+                <form className='login_form' onSubmit={this.handleSubmit} style={{
                     display: 'flex',
                     flexDirection: 'column',
                     gap: 3,
                     width: '300px',
                     height: '300px',
                 }}>
-                    <Input
-                        id="email"
-                        formControlProps={{
-                        fullWidth: true
-                        }}
-                        handleChange={this.handleInput}
+                    <TextField
+                        id="login_name"
+                        name='login_name'
+                        className='login_name'
+                        label="login name"
                         type="text"
+                        helperText="Enter your login name"
+                        onChange={this.handleInput}
                     />
-                    <Input
+                    <TextField
                         id="password"
-                        formControlProps={{
-                        fullWidth: true
-                        }}
-                        handleChange={this.handleInput}
+                        name='password'
+                        className='password'
+                        label="password"
                         type="password"
+                        helperText="Enter your password"
+                        onChange={this.handleInput}
                     />
-                    <Button type="button" color="primary" className="form_button">
+                    <Button type="submit" color='primary' className="form_button">
                         Log in
                     </Button>
                 </form>

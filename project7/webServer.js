@@ -220,7 +220,7 @@ app.get('/photosOfUser/:id', function (request, response) {
 });
 
 app.post('/admin/login', (req, res) => {
-    
+    console.log(req.body);
 });
 
 app.post('/admin/logout', (req, res) => {

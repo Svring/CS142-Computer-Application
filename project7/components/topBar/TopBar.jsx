@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   AppBar, Toolbar, Typography, Button, Grid
 } from '@material-ui/core';
@@ -38,7 +39,11 @@ class TopBar extends React.Component {
               </Typography>
             </Grid>
             <Grid item>
-              {this.state.view}
+              <Link to={'/loginregister'} style={{ textDecoration: 'none' }}>
+                <Button style={{ color: 'cyan' }}>
+                  To login
+                </Button>
+              </Link>
             </Grid>
           </Grid>
         </Toolbar>
