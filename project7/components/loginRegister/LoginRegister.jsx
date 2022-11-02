@@ -13,7 +13,15 @@ class LoginRegister extends React.Component {
 
     handleSubmit = e => {
         const url = '/admin/login';
-        axios.post(url, this.state).then(res => {});
+
+        axios.post(url, this.state)
+            .then(res => { 
+                const user = res.data;
+                window.location.href = `#/users/:${user._id}`;
+            })
+            .catch(err => {
+                console.log(err);
+            });
     };
 
     handleInput = e => {

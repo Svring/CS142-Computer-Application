@@ -19,13 +19,18 @@ class PhotoShare extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: "Home"
+      view: "Home",
+      current_user: undefined,
+      isLoggedIn: false,
     }
-    this.changeView = this.changeView.bind(this);
   }
 
   changeView = (newView, name) => {
     this.setState({view: newView + '/' + name});
+  }
+
+  changeLoggedIn = (user) => {
+    this.setState({ current_user: user });
   }
 
   render() {
@@ -34,7 +39,7 @@ class PhotoShare extends React.Component {
       <div>
       <Grid container spacing={5}>
         <Grid item xs={12}>
-          <TopBar view={this.state.view}/>
+          <TopBar view={this.state.view} current_user={this.state.current_user} />
         </Grid>
         <div className="cs142-main-topbar-buffer"/>
           <Grid item sm={3}>

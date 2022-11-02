@@ -220,11 +220,40 @@ app.get('/photosOfUser/:id', function (request, response) {
 });
 
 app.post('/admin/login', (req, res) => {
-    console.log(req.body);
+    const login_name = req.body.login_name;
+    const password = req.body.password;
+    User.findOne({ login_name: login_name}, (err, user) => {
+        if ( err || !user ) {
+            console.log('User not found');
+            res.status(401).send('User not found');
+            return;
+        }
+        /*
+        if ( user.password !== password ) {
+            console.log('Password wrong');
+            res.status(401).send('Password wrong');
+            return;
+        }
+        */
+        console.log('login success!');
+        req.session.login_name = user.login_name;
+        req.session.user_id = user._id;
+        req.session.cookie.originalMaxAge = 1000000000000000;
+        req.session.cookie.reSave = true;
+        let { _id, first_name, last_name, login_name } = user;
+        let newUser = { _id, first_name, last_name, login_name };
+        console.log(req.session);
+        res.status(200).send(newUser);
+    });
 });
 
 app.post('/admin/logout', (req, res) => {
-
+    req.session.destroy(err => {
+        if ( err ) {
+            res.status(400).send('failed to logout');
+        }
+        res.status(200).send('logout successful');
+    });
 });
 
 

@@ -26,6 +26,10 @@ class TopBar extends React.Component {
     }
   }
 
+  logout() {
+    axios.post('/admin/logout', {}).then(res => { console.log(res.data); });
+  }
+
   render() {
     return (
       <AppBar className="cs142-topbar-appBar" position="absolute">
@@ -41,9 +45,12 @@ class TopBar extends React.Component {
             <Grid item>
               <Link to={'/loginregister'} style={{ textDecoration: 'none' }}>
                 <Button style={{ color: 'cyan' }}>
-                  To login
+                  Login
                 </Button>
               </Link>
+              <Button onClick={this.logout}>
+                Logout
+              </Button>
             </Grid>
           </Grid>
         </Toolbar>
