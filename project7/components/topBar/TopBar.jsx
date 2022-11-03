@@ -14,13 +14,14 @@ class TopBar extends React.Component {
     super(props);
     this.state = {
       view: this.props.view,
+      current_user: this.props.current_user,
       version: [],
     }
   }
 
-  componentDidUpdate() {
-    if (this.state.view !== this.props.view) {
-      this.setState({view: this.props.view});
+  componentDidUpdate(prevProps) {
+    if (prevProps.view !== this.props.view) {
+      this.setState({view: this.props.view, current_user: this.props.current_user});
       axios.get("http://localhost:3000/test/info")
       .then(response => this.setState({version: response.data.__v}));
     }
@@ -40,6 +41,11 @@ class TopBar extends React.Component {
             <Grid item>
               <Typography variant="h6" style={{color: 'cyan'}}>
                 Linkling
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="h6" style={{color: 'hotpink'}}>
+                {this.state.view}
               </Typography>
             </Grid>
             <Grid item>

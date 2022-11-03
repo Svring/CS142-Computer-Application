@@ -17,6 +17,7 @@ class LoginRegister extends React.Component {
         axios.post(url, this.state)
             .then(res => { 
                 const user = res.data;
+                
                 window.location.href = `#/users/:${user._id}`;
             })
             .catch(err => {

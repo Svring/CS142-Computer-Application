@@ -23,10 +23,12 @@ class PhotoShare extends React.Component {
       current_user: undefined,
       isLoggedIn: false,
     }
+    this.changeView = this.changeView.bind(this);
+    this.changeLoggedIn = this.changeLoggedIn.bind(this);
   }
 
   changeView = (newView, name) => {
-    this.setState({view: newView + '/' + name});
+    this.setState({ view: newView + ' ' + name });
   }
 
   changeLoggedIn = (user) => {
@@ -50,7 +52,9 @@ class PhotoShare extends React.Component {
           <Grid item sm={9}>
             <Paper className="cs142-main-grid-item">
               <Switch>
-                <Route path="/loginregister" component={LoginRegister} />
+                <Route path="/loginregister"
+                  render={ props => <LoginRegister {...props} changeLoggedIn={this.changeLoggedIn} />}
+                />
                 <Route path="/users/:userId"
                   render={ props => <UserDetail {...props} changeView={this.changeView}/> }
                 />

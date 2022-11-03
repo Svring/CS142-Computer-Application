@@ -31,7 +31,15 @@ class UserDetail extends React.Component {
     let userId = this.props.match.params.userId;
     if (userId.slice(1) !== this.state.user._id) {
       let url = `/user/${userId}`;
-      axios.get(url).then(response => this.setState({user: response.data}));
+      axios.get(url)
+        .then(response => {
+          const newUser = response.data;
+          this.setState({ user: newUser });
+          this.props.changeView('Here is', newUser.last_name);
+        })
+        .catch(err => {
+          console.log(`${err} at UserDetail.DidUpdate`);
+        });
     }
   }
 

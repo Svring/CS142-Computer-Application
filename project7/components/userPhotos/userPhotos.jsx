@@ -35,7 +35,13 @@ class UserPhotos extends React.Component {
     if (userId !== this.state.userId) {
       this.setState({userId: userId});
       let url = `/photosOfUser/${userId}`;
-      axios.get(url).then(response => this.setState({photo: response.data}));
+      axios.get(url)
+        .then(response => {
+          this.setState({photo: response.data});
+          axios.get(`/user/${userId}`).then(res => {
+            this.props.changeView('Photo of', res.data.last_name);
+          })
+        });
     }
   }
 
