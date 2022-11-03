@@ -27,8 +27,13 @@ class TopBar extends React.Component {
     }
   }
 
-  logout() {
-    axios.post('/admin/logout', {}).then(res => { console.log(res.data); });
+  logout = () => {
+    axios.post('/admin/logout', {})
+      .then(res => {
+        console.log(res.data);
+        this.props.changeLoggedIn(undefined, false);
+        window.location.href = '#/loginregister';
+      });
   }
 
   render() {

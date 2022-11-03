@@ -11,13 +11,17 @@ class LoginRegister extends React.Component {
         };
     };
 
+    componentDidMount() {
+        this.props.changeView('Please', 'login');
+    }
+
     handleSubmit = e => {
         const url = '/admin/login';
 
         axios.post(url, this.state)
-            .then(res => { 
+            .then(res => {
                 const user = res.data;
-                
+                this.props.changeLoggedIn(user, true);
                 window.location.href = `#/users/:${user._id}`;
             })
             .catch(err => {

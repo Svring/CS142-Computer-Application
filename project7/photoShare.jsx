@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
-  HashRouter, Route, Switch
+  HashRouter, Redirect, Route, Switch
 } from 'react-router-dom';
 import {
   Grid, Typography, Paper
@@ -21,7 +21,7 @@ class PhotoShare extends React.Component {
     this.state = {
       view: "Home",
       current_user: undefined,
-      isLoggedIn: false,
+      logged_in: false,
     }
     this.changeView = this.changeView.bind(this);
     this.changeLoggedIn = this.changeLoggedIn.bind(this);
@@ -31,8 +31,8 @@ class PhotoShare extends React.Component {
     this.setState({ view: newView + ' ' + name });
   }
 
-  changeLoggedIn = (user) => {
-    this.setState({ current_user: user });
+  changeLoggedIn = (user, stat) => {
+    this.setState({ current_user: user, logged_in:  stat });
   }
 
   render() {
@@ -41,7 +41,7 @@ class PhotoShare extends React.Component {
       <div>
       <Grid container spacing={5}>
         <Grid item xs={12}>
-          <TopBar view={this.state.view} current_user={this.state.current_user} />
+          <TopBar view={this.state.view} current_user={this.state.current_user} changeLoggedIn={this.changeLoggedIn} />
         </Grid>
         <div className="cs142-main-topbar-buffer"/>
           <Grid item sm={3}>
@@ -53,15 +53,21 @@ class PhotoShare extends React.Component {
             <Paper className="cs142-main-grid-item">
               <Switch>
                 <Route path="/loginregister"
-                  render={ props => <LoginRegister {...props} changeLoggedIn={this.changeLoggedIn} />}
+                  render={ props => <LoginRegister {...props} changeLoggedIn={this.changeLoggedIn} changeView={this.changeView} />}
                 />
+                { this.state.logged_in ?
                 <Route path="/users/:userId"
-                  render={ props => <UserDetail {...props} changeView={this.changeView}/> }
-                />
+                  render={ props => <UserDetail {...props} changeView={this.changeView} /> }
+                /> :
+                <Redirect path='/users/:userId' to='/loginregister' />
+                }
+                { this.state.logged_in ?
                 <Route path="/photos/:userId"
                   render ={ props => <UserPhotos {...props} changeView={this.changeView}/> }
-                />
-                <Route path="/users" component={UserList}  />
+                /> :
+                <Redirect path='/photos/:userId' to='/loginregister' />
+                }
+                <Route path="/users" component={UserList} />
               </Switch>
             </Paper>
           </Grid>

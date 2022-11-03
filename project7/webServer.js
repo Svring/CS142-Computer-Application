@@ -242,7 +242,6 @@ app.post('/admin/login', (req, res) => {
         req.session.cookie.reSave = true;
         let { _id, first_name, last_name, login_name } = user;
         let newUser = { _id, first_name, last_name, login_name };
-        console.log(req.session);
         res.status(200).send(newUser);
     });
 });
