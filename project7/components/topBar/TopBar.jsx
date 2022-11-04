@@ -15,13 +15,14 @@ class TopBar extends React.Component {
     this.state = {
       view: this.props.view,
       current_user: this.props.current_user,
+      logged_in: this.props.logged_in,
       version: [],
     }
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.view !== this.props.view) {
-      this.setState({view: this.props.view, current_user: this.props.current_user});
+      this.setState({view: this.props.view, current_user: this.props.current_user, logged_in: this.props.logged_in });
       axios.get("http://localhost:3000/test/info")
       .then(response => this.setState({version: response.data.__v}));
     }
@@ -33,6 +34,7 @@ class TopBar extends React.Component {
         console.log(res.data);
         this.props.changeLoggedIn(undefined, false);
         window.location.href = '#/loginregister';
+        window.location.reload();
       });
   }
 
@@ -49,16 +51,21 @@ class TopBar extends React.Component {
               </Typography>
             </Grid>
             <Grid item>
-              <Typography variant="h6" style={{color: 'hotpink'}}>
+              <Typography variant="h6" style={{color: 'violet'}}>
                 {this.state.view}
               </Typography>
             </Grid>
-            <Grid item>
+            <Grid item style={{ display: 'flex' }}>
+              { !this.state.logged_in ?
               <Link to={'/loginregister'} style={{ textDecoration: 'none' }}>
                 <Button style={{ color: 'cyan' }}>
                   Login
                 </Button>
-              </Link>
+              </Link> :
+              <Typography variant='h6' style={{color: 'cyan' }}>
+                {this.state.current_user.first_name}
+              </Typography>
+              }
               <Button onClick={this.logout}>
                 Logout
               </Button>

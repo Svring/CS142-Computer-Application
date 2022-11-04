@@ -73,9 +73,14 @@ class LoginRegister extends React.Component {
                         helperText="Enter your password"
                         onChange={this.handleInput}
                     />
-                    <Button type="submit" color='primary' className="form_button">
-                        Log in
-                    </Button>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <Button type='submit' color='primary' className='register'>
+                            Register
+                        </Button>
+                        <Button type="submit" color='primary' className="login">
+                            Log in
+                        </Button>
+                    </div>
                 </form>
             </Paper>
         );

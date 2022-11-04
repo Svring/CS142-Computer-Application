@@ -18,12 +18,15 @@ class UserList extends React.Component {
     super(props);
     this.state = {
       users: [],
+      logged_in: this.props.logged_in,
     };
   }
 
-  componentDidMount() {
-    let url = '/user/list';
-    axios.get(url).then(response => {this.setState({users: response.data})});
+  componentDidUpdate(prevProps) {
+    if ( prevProps.logged_in !== this.props.logged_in ) {
+      let url = '/user/list';
+      axios.get(url).then(response => {this.setState({ users: response.data })});
+    }
   }
 
   getFullName = (user) => {

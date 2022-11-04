@@ -76,8 +76,6 @@ app.get('/', function (request, response) {
  */
 app.get('/test/:p1', function (request, response) {
     // Express parses the ":p1" from the URL and returns it in the request.params objects.
-    console.log('/test called with param1 = ', request.params.p1);
-
     var param = request.params.p1 || 'info';
 
     if (param === 'info') {
@@ -98,7 +96,7 @@ app.get('/test/:p1', function (request, response) {
             }
 
             // We got the object - return it in JSON format.
-            console.log('SchemaInfo', info[0]);
+            //console.log('SchemaInfo', info[0]);
             response.end(JSON.stringify(info[0]));
         });
     } else if (param === 'counts') {
@@ -138,6 +136,10 @@ app.get('/test/:p1', function (request, response) {
  * URL /user/list - Return all the User object.
  */
 app.get('/user/list', function (request, response) {
+    if ( !request.session.user_id ) {
+        response.status(401).send('Accessed only by users');
+        return;
+    }
     User.find((error, users) => {
         if (error) response.status(500).send(error);
         response.status(200).send(users);
@@ -149,11 +151,15 @@ app.get('/user/list', function (request, response) {
  * URL /user/:id - Return the information for User (id)
  */
 app.get('/user/:id', function (request, response) {
+    if ( !request.session.user_id ) {
+        response.status(401).send('Accessed only by users');
+        return;
+    }
     var id = request.params.id.slice(1);
     User.findOne({_id: id}, (error, user) => {
         if (error || !user) response.status(400).send(error);
         response.status(200).send(user);
-    })
+    });
     /*
     var user = cs142models.userModel(id);
     if (user === null) {
@@ -169,6 +175,10 @@ app.get('/user/:id', function (request, response) {
  * URL /photosOfUser/:id - Return the Photos for User (id)
  */
 app.get('/photosOfUser/:id', function (request, response) {
+    if ( !request.session.user_id ) {
+        response.status(401).send('Accessed only by users');
+        return;
+    }
     var id = request.params.id.slice(1);
     Photo.find({user_id: id}, (err, photos) => {
         if (err) {
@@ -225,7 +235,7 @@ app.post('/admin/login', (req, res) => {
     User.findOne({ login_name: login_name}, (err, user) => {
         if ( err || !user ) {
             console.log('User not found');
-            res.status(401).send('User not found');
+            res.status(400).send('User not found');
             return;
         }
         /*
@@ -235,7 +245,7 @@ app.post('/admin/login', (req, res) => {
             return;
         }
         */
-        console.log('login success!');
+        console.log('\nlogin success!\n');
         req.session.login_name = user.login_name;
         req.session.user_id = user._id;
         req.session.cookie.originalMaxAge = 1000000000000000;
