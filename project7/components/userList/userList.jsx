@@ -1,11 +1,7 @@
 import React from 'react';
 import {
-  List,
-  ListItem,
-  ListItemText,
-  Button,
-}
-from '@material-ui/core';
+  List, ListItem, ListItemText, Button,
+} from '@material-ui/core';
 import './userList.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';

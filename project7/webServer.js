@@ -265,6 +265,12 @@ app.post('/admin/logout', (req, res) => {
     });
 });
 
+app.post('/commentsOfPhoto/:photo_id', (req, res) => {
+    if ( req.session ) {
+        res.status(400).send('Comment is empty');
+    }
+    
+});
 
 var server = app.listen(3000, function () {
     var port = server.address().port;

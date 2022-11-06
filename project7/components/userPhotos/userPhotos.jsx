@@ -1,18 +1,40 @@
 import React from 'react';
 
-import './userPhotos.css';
-import {HashRouter as Router, Link} from 'react-router-dom';
-
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import { Divider } from '@material-ui/core';
+import { HashRouter as Router, Link } from 'react-router-dom';
+import { Card, CardMedia, CardContent, CardActions } from '@material-ui/core';
+import { Box, Paper, Typography, Divider, Button, TextField } from '@material-ui/core';
+import { Dialog, DialogActions, DialogTitle, DialogContent } from '@material-ui/core';
 
 import axios from 'axios';
+import './userPhotos.css';
+import { useState } from 'react';
 
+
+function Comment(props) {
+  let { open, onClose } = props;
+
+  const sendComment = () => {
+
+  }
+
+  return (
+    <Dialog open={open} onClose={onClose} >
+      <Card style={{ display: 'flex'}}>
+        <TextField type={'text'} />
+        <CardMedia component={'img'} image={'images/' + photo.file_name} 
+                style={{width: '100%', height: 200}} />
+      </Card>
+      <DialogActions>
+        <Button onClick={onClose} >
+          Quit
+        </Button>
+        <Button onClick={sendComment} >
+          Add
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
 
 /**
  * Define UserPhotos, a React componment of CS142 project #5
@@ -23,6 +45,7 @@ class UserPhotos extends React.Component {
     this.state = {
       userId: 0,
       photo: [],
+      open: false,
     };
   }
 
@@ -43,6 +66,15 @@ class UserPhotos extends React.Component {
           })
         });
     }
+  }
+
+  addComment = (e) => {
+    const photoId = e.target.name;
+    this.setState({ open: true });
+  }
+
+  handleComment = (e) => {
+    this.setState({ open: false });
   }
 
   cardOfComment = (photo) => {
@@ -81,11 +113,19 @@ class UserPhotos extends React.Component {
             <Card style={{width: 300, height: 250}} variant='outlined'>
               <CardMedia component={'img'} image={'images/' + photo.file_name} 
                 style={{width: '100%', height: 200}} />
-              <CardContent>
-                <Typography>
+              <CardActions style={{ display: 'flex', justifyContent: 'space-between'}}>
+                <Typography variant='body2' >
                   {photo.date_time}
                 </Typography>
-              </CardContent>
+                <Button 
+                  size='small'
+                  name={photo._id}
+                  style={{ color: 'ActiveBorder' }} 
+                  onClick={this.addComment} 
+                >
+                  comment 
+                </Button>
+              </CardActions>
             </Card>
             {this.cardOfComment(photo)}
           </Paper>
@@ -98,6 +138,7 @@ class UserPhotos extends React.Component {
     return (
       <Box>
         {this.listPhotos()}
+        <Comment open={this.state.open} onClose={this.handleComment} />
       </Box>
     );
   }

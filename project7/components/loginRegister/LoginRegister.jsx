@@ -73,7 +73,7 @@ class LoginRegister extends React.Component {
                         helperText="Enter your password"
                         onChange={this.handleInput}
                     />
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                         <Button type='submit' color='primary' className='register'>
                             Register
                         </Button>
