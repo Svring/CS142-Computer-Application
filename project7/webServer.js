@@ -247,7 +247,9 @@ app.post('/admin/login', (req, res) => {
         */
         console.log('\nlogin success!\n');
         req.session.login_name = user.login_name;
+        req.session.password = password;
         req.session.user_id = user._id;
+        req.session.user = user;
         req.session.cookie.originalMaxAge = 1000000000000000;
         req.session.cookie.reSave = true;
         let { _id, first_name, last_name, login_name } = user;
@@ -266,10 +268,34 @@ app.post('/admin/logout', (req, res) => {
 });
 
 app.post('/commentsOfPhoto/:photo_id', (req, res) => {
-    if ( req.session ) {
+    if ( !req.body.comment ) {
         res.status(400).send('Comment is empty');
     }
+    const commentText = req.body.comment;
+    const photo_id = req.body.photo_id;
+    const date_time = new Date().toISOString();
+    const user = req.session.user;
     
+    Photo.findOne({ _id: photo_id }, (err, photo) => {
+        if (err) {
+            res.status(400).send('photo not found');
+            return;
+        }
+        photo.comments = photo.comments.concat([
+            {
+                comment: commentText,
+                date_time: date_time,
+                user_id: user._id,
+            }
+        ]);
+        photo.save();
+        res.status(200).send('comment successful');
+    })
+});
+
+app.post('/photos/new', (req, res) => {
+    const user = req.session.user;
+    const time = new Date().toISOString();
 });
 
 var server = app.listen(3000, function () {

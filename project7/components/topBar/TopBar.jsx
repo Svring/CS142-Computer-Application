@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
-  AppBar, Toolbar, Typography, Button, Grid
+  AppBar, Toolbar, Typography, Button, Grid, Paper
+} from '@material-ui/core';
+import {
+  Dialog, DialogActions
 } from '@material-ui/core';
 import './TopBar.css';
 import axios from 'axios';
@@ -38,6 +41,10 @@ class TopBar extends React.Component {
       });
   }
 
+  uploadPhoto = () => {
+
+  }
+
   render() {
     return (
       <AppBar className="cs142-topbar-appBar" position="absolute">
@@ -55,7 +62,7 @@ class TopBar extends React.Component {
                 {this.state.view}
               </Typography>
             </Grid>
-            <Grid item style={{ display: 'flex' }}>
+            <Grid item style={{ display: 'flex', gap: 3 }}>
               { !this.state.logged_in ?
               <Link to={'/loginregister'} style={{ textDecoration: 'none' }}>
                 <Button style={{ color: 'cyan' }}>
@@ -65,6 +72,13 @@ class TopBar extends React.Component {
               <Typography variant='h6' style={{color: 'cyan' }}>
                 {this.state.current_user.first_name}
               </Typography>
+              }
+              {
+                this.state.logged_in ?
+                <Button onClick={this.uploadPhoto} style={{ color: 'violet' }} >
+                  Upload
+                </Button> :
+                null
               }
               <Button onClick={this.logout}>
                 Logout

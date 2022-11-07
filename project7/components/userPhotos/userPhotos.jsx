@@ -3,7 +3,7 @@ import React from 'react';
 import { HashRouter as Router, Link } from 'react-router-dom';
 import { Card, CardMedia, CardContent, CardActions } from '@material-ui/core';
 import { Box, Paper, Typography, Divider, Button, TextField } from '@material-ui/core';
-import { Dialog, DialogActions, DialogTitle, DialogContent } from '@material-ui/core';
+import { Dialog, DialogActions } from '@material-ui/core';
 
 import axios from 'axios';
 import './userPhotos.css';
@@ -11,27 +11,54 @@ import { useState } from 'react';
 
 
 function Comment(props) {
-  let { open, onClose } = props;
+
+  const [comment, setComment] = useState('');
+
+  let { open, onClose, photoId, fileName } = props;
 
   const sendComment = () => {
+    let url = '/commentsOfPhoto/:' + photoId;
+    let message = {
+      comment: comment,
+      photo_id: photoId,
+    };
+    axios.post(url, message)
+      .then( res => {
+        console.log('comment successful');
+        onClose();
+      })
+      .catch( res => {
+        console.log('comment failed');
+      });
+  }
 
+  const handleCommentInput = (e) => {
+    setComment(e.target.value);
   }
 
   return (
     <Dialog open={open} onClose={onClose} >
-      <Card style={{ display: 'flex'}}>
-        <TextField type={'text'} />
-        <CardMedia component={'img'} image={'images/' + photo.file_name} 
+      <Paper style={{ width: 500, height: 400, padding: 3}}>
+        <Card style={{ display: 'flex', flexDirection: 'column'}}>
+          <CardMedia component={'img'} image={'images/' + fileName} 
                 style={{width: '100%', height: 200}} />
-      </Card>
-      <DialogActions>
-        <Button onClick={onClose} >
-          Quit
-        </Button>
-        <Button onClick={sendComment} >
-          Add
-        </Button>
-      </DialogActions>
+          <TextField 
+            type={'text'}
+            onChange={handleCommentInput} 
+            minRows='5'
+            fullWidth
+            multiline
+          />
+        </Card>
+        <DialogActions style={{ display: 'flex', justifyContent: 'space-around'}}>
+          <Button onClick={onClose} >
+            Quit
+          </Button>
+          <Button onClick={sendComment} >
+            Add
+          </Button>
+        </DialogActions>
+      </Paper>
     </Dialog>
   );
 }
@@ -46,6 +73,8 @@ class UserPhotos extends React.Component {
       userId: 0,
       photo: [],
       open: false,
+      photoId: [],
+      fileName: [],
     };
   }
 
@@ -68,12 +97,11 @@ class UserPhotos extends React.Component {
     }
   }
 
-  addComment = (e) => {
-    const photoId = e.target.name;
-    this.setState({ open: true });
+  openDialog = (e, photoId, fileName) => {
+    this.setState({ open: true, photoId: photoId, fileName: fileName });
   }
 
-  handleComment = (e) => {
+  closeDialog = (e) => {
     this.setState({ open: false });
   }
 
@@ -81,10 +109,13 @@ class UserPhotos extends React.Component {
     return (
       photo.comments ?
       photo.comments.map((comment) =>
-        <Card style={{width: 300, height: 250}} variant='outlined'>
+        <Card style={{width: 300, height: 250}} variant='outlined' key={comment._id} >
           <CardContent>
             <Typography style={{color: 'ActiveBorder'}}>
-              {comment.date_time}
+              {((comment) => {
+                let date = new Date(comment.date_time);
+                return date.toLocaleString();
+              })(comment)}
             </Typography>
             <Router>
               <Link to={"/users/:" + comment.user._id} style={{textDecoration: 'None'}} key={comment._id}>
@@ -109,19 +140,21 @@ class UserPhotos extends React.Component {
     return (
       this.state.photo.map((photo) => {
         return (
-          <Paper style={{display: 'flex'}}>
+          <Paper style={{display: 'flex'}} key={photo._id} >
             <Card style={{width: 300, height: 250}} variant='outlined'>
               <CardMedia component={'img'} image={'images/' + photo.file_name} 
                 style={{width: '100%', height: 200}} />
               <CardActions style={{ display: 'flex', justifyContent: 'space-between'}}>
                 <Typography variant='body2' >
-                  {photo.date_time}
+                  {((photo) => {
+                    let date = new Date(photo.date_time);
+                    return date.toLocaleString();
+                  })(photo)}
                 </Typography>
-                <Button 
+                <Button
                   size='small'
-                  name={photo._id}
-                  style={{ color: 'ActiveBorder' }} 
-                  onClick={this.addComment} 
+                  style={{ color: 'ActiveBorder' }}
+                  onClick={e => this.openDialog(e, photo._id, photo.file_name)} 
                 >
                   comment 
                 </Button>
@@ -138,7 +171,12 @@ class UserPhotos extends React.Component {
     return (
       <Box>
         {this.listPhotos()}
-        <Comment open={this.state.open} onClose={this.handleComment} />
+        <Comment 
+        open={this.state.open} 
+        onClose={this.closeDialog} 
+        photoId={this.state.photoId} 
+        fileName={this.state.fileName}
+        />
       </Box>
     );
   }
