@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
-  AppBar, Toolbar, Typography, Button, Grid, Paper
+  AppBar, Toolbar, Typography, Button, Grid, Paper, Input
 } from '@material-ui/core';
 import {
-  Dialog, DialogActions
+  Dialog, DialogActions, DialogContent, Alert
 } from '@material-ui/core';
 import './TopBar.css';
 import axios from 'axios';
@@ -20,6 +20,7 @@ class TopBar extends React.Component {
       current_user: this.props.current_user,
       logged_in: this.props.logged_in,
       version: [],
+      dialog: false,
     }
   }
 
@@ -41,8 +42,25 @@ class TopBar extends React.Component {
       });
   }
 
-  uploadPhoto = () => {
+  uploadPhoto = (e) => {
+    e.preventDefault();
+    if (this.uploadInput.files.length > 0) {
+     const domForm = new FormData();
+     domForm.append('uploadedphoto', this.uploadInput.files[0]);
+     axios.post('/photos/new', domForm)
+       .then((res) => {
+         console.log(res);
+       })
+       .catch(err => console.log(`POST ERR: ${err}`));
+    }
+  }
 
+  openDialog = () => {
+    this.setState({ dialog: true });
+  }
+
+  closeDialog = () => {
+    this.setState({ dialog: false });
   }
 
   render() {
@@ -75,7 +93,7 @@ class TopBar extends React.Component {
               }
               {
                 this.state.logged_in ?
-                <Button onClick={this.uploadPhoto} style={{ color: 'violet' }} >
+                <Button onClick={this.openDialog} style={{ color: 'violet' }} >
                   Upload
                 </Button> :
                 null
@@ -84,6 +102,20 @@ class TopBar extends React.Component {
                 Logout
               </Button>
             </Grid>
+            <Dialog open={this.state.dialog} onClose={this.closeDialog} >
+              <form onSubmit={this.uploadPhoto} >
+                <DialogContent>
+                <input type={'file'} accept="image/*" ref={domFileRef => {
+                        this.uploadInput = domFileRef;
+                      }} />
+                </DialogContent>
+                <DialogActions>
+                  <Button type='submit' >
+                    upload
+                  </Button>
+                </DialogActions>
+              </form>
+            </Dialog>
           </Grid>
         </Toolbar>
       </AppBar>

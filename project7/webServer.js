@@ -39,6 +39,8 @@ const bodyParser = require('body-parser');
 
 const multer = require('multer');
 
+const fs = require("fs");
+
 var cors = require('cors');
 
 var async = require('async');
@@ -56,6 +58,8 @@ mongoose.connect('mongodb://localhost/cs142project6', { useNewUrlParser: true, u
 
 // We have the express static module (http://expressjs.com/en/starter/static-files.html) do all
 // the work for us.
+const processFormBody = multer({storage: multer.memoryStorage()}).single('uploadedphoto');
+
 var app = express();
 app.use(express.static(__dirname));
 app.use(cors({ origin: '*' }));
@@ -238,13 +242,10 @@ app.post('/admin/login', (req, res) => {
             res.status(400).send('User not found');
             return;
         }
-        /*
         if ( user.password !== password ) {
-            console.log('Password wrong');
             res.status(401).send('Password wrong');
             return;
         }
-        */
         console.log('\nlogin success!\n');
         req.session.login_name = user.login_name;
         req.session.password = password;
@@ -295,7 +296,65 @@ app.post('/commentsOfPhoto/:photo_id', (req, res) => {
 
 app.post('/photos/new', (req, res) => {
     const user = req.session.user;
-    const time = new Date().toISOString();
+    processFormBody(req, res, function (err) {
+        if ( err || !req.file ) {
+            res.status(400).send('upload failed');
+            return;
+        }
+        
+        const timestamp = new Date().valueOf();
+        const filename = 'U' +  String(timestamp) + req.file.originalname;
+    
+        fs.writeFile("./images/" + filename, req.file.buffer, function (err) {
+          if ( err ) {
+            res.status(400).send('file written failed');
+          }
+          Photo.create({
+            file_name: filename,
+            date_time: timestamp,
+            user_id: user._id,
+            comment: [],
+          }).then( photoObj => {
+            photoObj.save();
+            res.status(200).send('upload successful');
+          }).catch( err => {
+            res.status(400).send('upload failed');
+          });
+        });
+    });
+});
+
+app.post('/user', ( req, res ) => {
+    const { first_name, last_name, location, 
+        description, occupation, login_name, password} = req.body;
+    const arr = [first_name, last_name, location, 
+        description, occupation, login_name, password];
+    if ( arr.some((e) => !e)) {
+        res.status(400).send('information lacked');
+        return;
+    }
+
+    User.findOne({ login_name: login_name }, (err, user) => {
+        if ( err || user ) {
+            console.log('login name has existed');
+            res.status(400).send('login name has existed');
+            return;
+        }
+        User.create({
+            first_name: first_name,
+            last_name: last_name,
+            location: location,
+            description: description,
+            occupation: occupation,
+            login_name: login_name,
+            password: password,
+        }).then( userObj => {
+            userObj.save();
+            res.status(200).send('user created successfully');
+        }).catch( err => {
+            res.status(400).send('user created failed');
+        });
+    })
 });
 
 var server = app.listen(3000, function () {
