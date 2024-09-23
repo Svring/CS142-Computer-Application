@@ -1,94 +1,12 @@
 'use client'
 
-import { useState } from 'react'
-import { User, LogIn, Image as ImageIcon, MessageCircle, Home } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { LogIn, Image as ImageIcon, MessageCircle, Home } from 'lucide-react'
+import { users, UserData } from '../model/data' // Import from the new data file
 
-interface Comment {
-  id: number
-  username: string
-  content: string
-  date: string
-}
-
-interface Photo {
-  id: number
-  url: string
-  caption: string
-  comments: Comment[]
-}
-
-interface UserData {
-  id: number
-  name: string
-  avatar: string
-  photos: Photo[]
-}
-
-const users: UserData[] = [
-  {
-    id: 1,
-    name: 'Alice',
-    avatar: '/placeholder.svg?height=40&width=40',
-    photos: [
-      { 
-        id: 1, 
-        url: '/placeholder.svg?height=300&width=300', 
-        caption: 'Beautiful sunset', 
-        comments: [
-          { id: 1, username: 'Bob', content: 'Lovely!', date: '2023-06-01' },
-          { id: 2, username: 'Charlie', content: 'Great shot!', date: '2023-06-02' },
-          { id: 3, username: 'David', content: 'Amazing colors!', date: '2023-06-03' },
-          { id: 4, username: 'Eve', content: 'Where was this taken?', date: '2023-06-04' },
-          { id: 5, username: 'Frank', content: 'I wish I was there!', date: '2023-06-05' },
-          { id: 6, username: 'Grace', content: 'Stunning view!', date: '2023-06-06' },
-        ]
-      },
-      { 
-        id: 2, 
-        url: '/placeholder.svg?height=300&width=300', 
-        caption: 'City lights', 
-        comments: [
-          { id: 7, username: 'Henry', content: 'Amazing view!', date: '2023-06-07' },
-          { id: 8, username: 'Ivy', content: 'I love night photography!', date: '2023-06-08' },
-        ]
-      },
-    ]
-  },
-  {
-    id: 2,
-    name: 'Bob',
-    avatar: '/placeholder.svg?height=40&width=40',
-    photos: [
-      { 
-        id: 3, 
-        url: '/placeholder.svg?height=300&width=300', 
-        caption: 'Mountain hike', 
-        comments: [
-          { id: 9, username: 'Jack', content: 'Breathtaking!', date: '2023-06-09' },
-          { id: 10, username: 'Kate', content: 'Where is this?', date: '2023-06-10' },
-          { id: 11, username: 'Liam', content: 'I need to go there!', date: '2023-06-11' },
-        ]
-      },
-    ]
-  },
-  {
-    id: 3,
-    name: 'Charlie',
-    avatar: '/placeholder.svg?height=40&width=40',
-    photos: [
-      { 
-        id: 4, 
-        url: '/placeholder.svg?height=300&width=300', 
-        caption: 'Beach day', 
-        comments: [
-          { id: 12, username: 'Mia', content: 'Wish I was there!', date: '2023-06-12' },
-          { id: 13, username: 'Noah', content: 'Looks relaxing', date: '2023-06-13' },
-          { id: 14, username: 'Olivia', content: 'Perfect weather!', date: '2023-06-14' },
-        ]
-      },
-    ]
-  },
-]
+import Photo from '../model/photo'
+import SchemaInfo from '../model/schemaInfo'
+import User from '../model/user'
 
 type Page = 'login' | 'details' | 'userGallery'
 
@@ -96,6 +14,10 @@ export function PhotoShareComponent() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [selectedUser, setSelectedUser] = useState<UserData | null>(null)
   const [currentPage, setCurrentPage] = useState<Page>('login')
+
+  const [user, setUser] = useState<typeof User[] | null>(null)
+  const [photo, setPhoto] = useState<typeof Photo[] | null>(null)
+  const [schemaInfo, setSchemaInfo] = useState<typeof SchemaInfo[] | null>(null)
 
   const handleLogin = () => {
     setIsLoggedIn(true)
@@ -115,10 +37,29 @@ export function PhotoShareComponent() {
     }
   }
 
+  // useEffect(() => {
+  //   const fetchResources = async () => {
+  //     try {
+  //       const response = await fetch('/api/user');
+  //       const result = await response.json();
+  //       if (result.success) {
+  //         setUser(result.data);
+  //         console.log(result.data)
+  //       } else {
+  //         console.log(result.message)
+  //       }
+  //     } catch (err: any) {
+  //       console.log(err)
+  //     }
+  //   };
+
+  //   fetchResources();
+  // }, []);
+
   return (
     <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
-      <div className="w-1/12 bg-gray-800 p-4 flex flex-col justify-between items-center">
+      <div className="w-20 bg-gray-800 p-4 flex flex-col justify-between items-center">
         <div className="space-y-4">
           {users.map(user => (
             <button
@@ -149,15 +90,15 @@ export function PhotoShareComponent() {
             <div className="w-full max-w-md bg-gray-800 p-8 rounded-lg shadow-md">
               <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
               <div className="space-y-4">
-                <input 
-                  type="email" 
-                  placeholder="Email" 
-                  className="w-full p-2 border rounded-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                <input
+                  type="email"
+                  placeholder="Email"
+                  className="w-full p-2 border rounded-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
-                <input 
-                  type="password" 
-                  placeholder="Password" 
-                  className="w-full p-2 border rounded-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                <input
+                  type="password"
+                  placeholder="Password"
+                  className="w-full p-2 border rounded-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <div className="flex justify-between text-sm">
                   <a href="#" className="text-blue-400 hover:text-blue-300">Register</a>
